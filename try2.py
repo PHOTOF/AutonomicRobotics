@@ -3,6 +3,21 @@ import pygame
 import time
 import math
 
+
+def getEnd(direction):
+    last_color = (255, 255, 255, 255)
+    for i in range(60, 400):
+        blackPos = int(x + i * math.cos(direction)), int(y + i * math.sin(direction))
+        try:
+            color = screen.get_at(blackPos)
+            if last_color != color:
+                last_color = color
+                return blackPos
+        except IndexError:
+            return int(x + (i-1) * math.cos(direction)), int(y + (i-1) * math.sin(direction))
+
+
+
 #necessary pygame initializing
 pygame.init()
 
@@ -39,12 +54,15 @@ while True:
     #draw surf to screen and catch the rect that blit returns
     blittedRect = screen.blit(surf, where)
 
-    RsensorBegin = (x + 38 + math.cos(direction), y + 38 + math.sin(direction))
-    RsensorEnd = (150, 150)
-    LsensorBegin = (x + 38 + math.cos(direction), y + math.sin(direction))
-    LsensorEnd = (270, 30)
+    RsensorBegin = (x + 19, y + 19)
+    RsensorEnd = getEnd(direction + 0.3)
+    LsensorBegin = (x + 19, y + 19)
+    LsensorEnd = getEnd(direction - 0.3)
+    MsensorBegin = (x + 19, y + 19)
+    MsensorEnd = getEnd(direction)
     pygame.draw.line(screen, green, RsensorBegin, RsensorEnd, 4)
     pygame.draw.line(screen, green, LsensorBegin, LsensorEnd, 4)
+    pygame.draw.line(screen, green, MsensorBegin, MsensorEnd, 4)
 
     pygame.event.pump()
     keys = pygame.key.get_pressed()
@@ -110,4 +128,4 @@ while True:
     pygame.display.flip()
 
     #wait 60 ms until loop restart
-    pygame.time.wait(60)
+    pygame.time.wait(10)
