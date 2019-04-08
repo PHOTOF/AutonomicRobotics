@@ -31,8 +31,8 @@ while True:
     surf =  pygame.Surface((50, 50))
     surf.fill((0, 0, 0))
     surf = pygame.image.load('pygame.png')
-    pygame.draw.line(screen, green, Rsensor, 4)
-    pygame.draw.line(screen, green, Lsensor, 4)
+    # pygame.draw.line(screen, green, Rsensor, 4)
+    # pygame.draw.line(screen, green, Lsensor, 4)
 
 
     #what coordinates will the static image be placed:
