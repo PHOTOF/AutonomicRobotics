@@ -31,8 +31,6 @@ while True:
     surf =  pygame.Surface((50, 50))
     surf.fill((0, 0, 0))
     surf = pygame.image.load('pygame.png')
-    # pygame.draw.line(screen, green, Rsensor, 4)
-    # pygame.draw.line(screen, green, Lsensor, 4)
 
 
     #what coordinates will the static image be placed:
@@ -40,6 +38,14 @@ while True:
 
     #draw surf to screen and catch the rect that blit returns
     blittedRect = screen.blit(surf, where)
+
+    RsensorBegin = (x + 38 + math.cos(direction), y + 38 + math.sin(direction))
+    RsensorEnd = (150, 150)
+    LsensorBegin = (x + 38 + math.cos(direction), y + math.sin(direction))
+    LsensorEnd = (270, 30)
+    pygame.draw.line(screen, green, RsensorBegin, RsensorEnd, 4)
+    pygame.draw.line(screen, green, LsensorBegin, LsensorEnd, 4)
+
     pygame.event.pump()
     keys = pygame.key.get_pressed()
     if (keys[K_UP]):
