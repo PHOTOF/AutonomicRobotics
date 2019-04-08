@@ -6,7 +6,7 @@ import math
 
 def getEnd(direction):
     last_color = (255, 255, 255, 255)
-    for i in range(60, 400):
+    for i in range(55, 400):
         blackPos = int(x + i * math.cos(direction)), int(y + i * math.sin(direction))
         try:
             color = screen.get_at(blackPos)
@@ -128,4 +128,12 @@ while True:
     pygame.display.flip()
 
     #wait 60 ms until loop restart
-    pygame.time.wait(10)
+    pygame.time.wait(30)
+
+
+#pix = 2.5 cm
+#RES 40 pix = 1.0 meter
+#ft = 60.5
+#mqx speed = 3m/s
+#max acc = 2
+#max ang = pi/sec
