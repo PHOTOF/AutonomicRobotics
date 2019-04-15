@@ -6,7 +6,7 @@ import math
 
 def getEnd(direction):
     last_color = (255, 255, 255, 255)
-    for i in range(25, 900):
+    for i in range(20, 900):
         blackPos = int(x + i * math.cos(direction)), int(y + i * math.sin(direction))
         try:
             color = background.get_at(blackPos)
@@ -36,9 +36,17 @@ rotate = 2.5
 direction = 0
 dRotate = rotate/58
 
+#create lines list
 lines=[]
+
+#create variable for colors
+white = (255, 255, 255)
 green = (0,255,0)
 gray = (224,238,238)
+
+
+#create fail counter
+failure = 0
 
 while True:
     screen.fill((255,255,255))
@@ -78,12 +86,20 @@ while True:
     pygame.event.pump()
     keys = pygame.key.get_pressed()
     if (keys[K_w]):
+        if background.get_at((int(x+surfR+math.cos(direction)), int(y+surfR+math.sin(direction))))!=white :
+            failure+=1
+            print ("Failure: ", failure)
+            #step back
+            x -= math.cos(direction)
+            y -= math.sin(direction)
+
+            continue
         ##FORWARD
         x += math.cos(direction)
         y += math.sin(direction)
 
     if (keys[K_s]):
-        ##BACKWARDS
+        ##BACKWARD
         x -= math.cos(direction)
         y -= math.sin(direction)
 
