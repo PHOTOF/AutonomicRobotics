@@ -6,10 +6,10 @@ import math
 
 def getEnd(direction):
     last_color = (255, 255, 255, 255)
-    for i in range(55, 400):
+    for i in range(25, 900):
         blackPos = int(x + i * math.cos(direction)), int(y + i * math.sin(direction))
         try:
-            color = screen.get_at(blackPos)
+            color = background.get_at(blackPos)
             if last_color != color:
                 last_color = color
                 return blackPos
@@ -28,6 +28,7 @@ screen =  pygame.display.set_mode(background.get_rect().size)
 #create a varibles for initial coordinates
 x = 0
 y = 0
+surfR = 8
 
 #create a varible for degrees pf rotation
 degree = 0
@@ -35,17 +36,23 @@ rotate = 2.5
 direction = 0
 dRotate = rotate/58
 
-Rsensor = ()
+lines=[]
 green = (0,255,0)
+gray = (224,238,238)
 
 while True:
     screen.fill((255,255,255))
-    screen.blit(background, (0, 0))
+    #screen.blit(background, (0, 0))
 
     #create new surface with white BG
-    surf =  pygame.Surface((50, 50))
+    surf =  pygame.Surface((25, 25))
     surf.fill((0, 0, 0))
     surf = pygame.image.load('pygame.png')
+    #surf = pygame.draw.rect(surf, (0, 255, 0), (x, y, x+50, y+50), 2)
+
+    #draw the previous sensors
+    for i in lines:
+        pygame.draw.line(screen, gray, i[0], i[1], 1)
 
 
     #what coordinates will the static image be placed:
@@ -54,29 +61,33 @@ while True:
     #draw surf to screen and catch the rect that blit returns
     blittedRect = screen.blit(surf, where)
 
-    RsensorBegin = (x + 19, y + 19)
+    begin = (x + surfR, y + surfR)
     RsensorEnd = getEnd(direction + 0.3)
-    LsensorBegin = (x + 19, y + 19)
     LsensorEnd = getEnd(direction - 0.3)
-    MsensorBegin = (x + 19, y + 19)
     MsensorEnd = getEnd(direction)
-    pygame.draw.line(screen, green, RsensorBegin, RsensorEnd, 4)
-    pygame.draw.line(screen, green, LsensorBegin, LsensorEnd, 4)
-    pygame.draw.line(screen, green, MsensorBegin, MsensorEnd, 4)
+    pygame.draw.line(screen, green, begin, RsensorEnd, 1)
+    pygame.draw.line(screen, green, begin, LsensorEnd, 1)
+    pygame.draw.line(screen, green, begin, MsensorEnd, 1)
+
+
+    lines.append((begin, RsensorEnd))
+    lines.append ((begin, LsensorEnd))
+    lines.append ((begin, MsensorEnd))
+
 
     pygame.event.pump()
     keys = pygame.key.get_pressed()
-    if (keys[K_UP]):
+    if (keys[K_w]):
         ##FORWARD
         x += math.cos(direction)
         y += math.sin(direction)
 
-    if (keys[K_DOWN]):
+    if (keys[K_s]):
         ##BACKWARDS
         x -= math.cos(direction)
         y -= math.sin(direction)
 
-    if (keys[K_LEFT]):
+    if (keys[K_a]):
         ##ROTATED
         #get center of surf for later
         oldCenter = blittedRect.center
@@ -100,7 +111,7 @@ while True:
         if direction>360:
             direction = 0
 
-    if (keys[K_RIGHT]):
+    if (keys[K_d]):
         ##ROTATED
         #get center of surf for later
         oldCenter = blittedRect.center
@@ -128,7 +139,7 @@ while True:
     pygame.display.flip()
 
     #wait 60 ms until loop restart
-    pygame.time.wait(30)
+    pygame.time.wait(15)
 
 
 #pix = 2.5 cm
