@@ -2,7 +2,7 @@
 autonomic robotics course
 
 ### Simulator - python program to simulate the autonomic robot in 2D maze. the sensors help the robot to navigate it way through.
-![alt text](https://raw.githubusercontent.com/username/projectname/branch/path/to/img.png)
+![alt text](https://github.com/yoavhenig/AutonomicRobotics/blob/master/AutonomicRoboticsSimulator/simulator.JPG)
 
 ### Green tracking - python program to track green object.
 
