@@ -6,14 +6,15 @@ import math
 def get_end(direction):
     last_color = (255, 255, 255, 255)
     for i in range(20, 100000):
+        range_to_wall = i
         blackPos = int(x + i * math.cos(direction)), int(y + i * math.sin(direction))
         try:
             color = background.get_at(blackPos)
             if last_color != color:
                 # last_color = color
-                return blackPos
+                return [blackPos, range_to_wall]
         except IndexError:
-            return int(x + (i-1) * math.cos(direction)), int(y + (i-1) * math.sin(direction))
+            return [(int(x + (i-1) * math.cos(direction)), int(y + (i-1) * math.sin(direction))), range_to_wall]
 
 
 # necessary pygame initializing
@@ -21,7 +22,7 @@ pygame.init()
 
 # create a surface that will be seen by the user
 background = pygame.image.load('backgrounds/p11.png')
-screen =  pygame.display.set_mode(background.get_rect().size)
+screen = pygame.display.set_mode(background.get_rect().size)
 
 # create a varibles for initial coordinates
 x = 100
@@ -49,7 +50,6 @@ failure = 0
 
 while True:
     screen.fill((255, 255, 255))
-    # screen.blit(background, (0, 0))
 
     # create new surface with white BG
     drone = pygame.Surface((25, 25))
@@ -70,12 +70,21 @@ while True:
     blittedRect = screen.blit(drone, where)
 
     begin = (x + surfR, y + surfR)
-    RsensorEnd = get_end(direction + 0.5)
-    LsensorEnd = get_end(direction - 0.5)
-    MsensorEnd = get_end(direction)
+    RsensorEnd = get_end(direction + 0.5)[0]
+    LsensorEnd = get_end(direction - 0.5)[0]
+    MsensorEnd = get_end(direction)[0]
+
+    rangeToRight = get_end(direction + 0.5)[1]
+    rangeToLeft = get_end(direction - 0.5)[1]
+    rangeToWall = get_end(direction)[1]
+
     pygame.draw.line(screen, green, begin, RsensorEnd, 1)
     pygame.draw.line(screen, green, begin, LsensorEnd, 1)
     pygame.draw.line(screen, green, begin, MsensorEnd, 1)
+
+    print("Range to right: " + str(rangeToRight))
+    print("Range to left: " + str(rangeToLeft))
+    print("Range to wall: " + str(rangeToWall))
 
     lines.append((begin, RsensorEnd))
     lines.append((begin, LsensorEnd))
@@ -93,7 +102,6 @@ while True:
             # step back
             x -= math.cos(direction)
             y -= math.sin(direction)
-
             continue
         # #FORWARD
         x += math.cos(direction)
