@@ -1,6 +1,7 @@
 from pygame.locals import *
 import pygame
 import math
+import random
 
 def stop(degree, direction):
     fullRotation = 0;
@@ -170,6 +171,12 @@ while True:
 
     if rangeToWall <= 40 and abs(rangeToLeft - rangeToRight) <= 1:
         direction = stop(degree, direction)
+
+    if rangeToWall <= 40 and rangeToLeft > 90 and rangeToRight > 90:
+        if random.randint(1, 100) < 50:
+            direction = direction + 0.9
+        else:
+            direction = direction - 0.9
 
     if keys[K_w] or rangeToWall > 40:
         # moveForward(x, y, )
