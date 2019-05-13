@@ -57,7 +57,7 @@ def stop(degree, direction):
     pygame.time.wait(20)
 
 def drawSensors():
-    begin = (x + surfR, y + surfR)
+    begin = (x, y)
 
     rightData = get_end(direction + 0.9)
     leftData = get_end(direction - 0.9)
@@ -84,6 +84,7 @@ def drawSensors():
     lines.append((begin, MsensorEnd))
     walls.append(RsensorEnd)
     walls.append(LsensorEnd)
+    path.append(where)
 
     return [rangeToRight, rangeToLeft, rangeToWall]
 
@@ -91,10 +92,10 @@ def drawSensors():
 def fillScreen(where):
     screen.fill((255, 255, 255))
 
-    # create new surface with white BG
-    drone = pygame.Surface((25, 25))
+    # # create new surface with white BG
+    drone = pygame.Surface((1, 1))
     drone.fill((0, 0, 0))
-    drone = pygame.image.load('drone.png')
+    # drone = pygame.image.load('drone.png')
     # drone = pygame.draw.rect(drone, (0, 255, 0), (x, y, x+50, y+50), 2)
 
     # draw the previous sensors
@@ -102,10 +103,13 @@ def fillScreen(where):
         pygame.draw.line(screen, gray, i[0], i[1], 1)
     for i in walls:
         pygame.draw.circle(screen, red, i, 1, 0)
+    for i in path:
+        pygame.draw.circle(screen, blue, i, 1, 0)
+
 
     # draw drone to screen and catch the rect that blit returns
     blittedRect = screen.blit(drone, where)
-    return [blittedRect,drone]
+    return [blittedRect, drone]
 
 
 def get_end(direction):
@@ -126,7 +130,7 @@ def get_end(direction):
 pygame.init()
 
 # create a surface that will be seen by the user
-background = pygame.image.load('backgrounds/p11.png')
+background = pygame.image.load('backgrounds/p14.png')
 screen = pygame.display.set_mode(background.get_rect().size)
 
 # create a varibles for initial coordinates
@@ -143,23 +147,28 @@ dRotate = rotate / 58
 # create lines and points lists for prescan sensors
 lines = []
 walls = []
+path = []
 
 # create variable for colors
 white = (255, 255, 255)
 green = (0, 255, 0)
 gray = (224, 238, 238)
 red = (223, 223, 0)
+blue = (135, 206, 235)
+orange = (255, 69, 0)
 
 # create fail counter
 failure = 0
 
 while True:
     # What coordinates will the static image be placed:
-    where = x, y
+    where = int(x), int(y)
 
     screenData = fillScreen(where)
     blittedRect = screenData[0]
     drone = screenData[1]
+
+    pygame.draw.circle(screen, orange, where, 7, 0)
 
     ranges = drawSensors()
     rangeToRight = ranges[0]
@@ -169,10 +178,10 @@ while True:
     pygame.event.pump()
     keys = pygame.key.get_pressed()
 
-    if rangeToWall <= 40 and abs(rangeToLeft - rangeToRight) <= 1:
+    if rangeToWall <= 40 and abs(rangeToLeft - rangeToRight) <= 3:
         direction = stop(degree, direction)
 
-    if rangeToWall <= 40 and rangeToLeft > 90 and rangeToRight > 90:
+    if rangeToWall <= 40 and rangeToLeft > 10 and rangeToRight > 10:
         if random.randint(1, 100) < 50:
             direction = direction + 0.9
         else:
@@ -248,7 +257,7 @@ while True:
     pygame.display.flip()
 
     # wait 60 ms until loop restart
-    pygame.time.wait(20)
+    pygame.time.wait(10)
 
 
 # pix = 2.5 cm
@@ -257,4 +266,3 @@ while True:
 # mqx speed = 3m/s
 # max acc = 2
 # max ang = pi/sec
-
