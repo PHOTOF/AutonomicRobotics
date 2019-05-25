@@ -5,7 +5,7 @@ autonomic robotics course
 <img src="https://github.com/yoavhenig/AutonomicRobotics/blob/master/AutonomicRoboticsSimulator/simulator.JPG" width="300">
 
 #### Tracking after robot location
-<img src="https://github.com/yoavhenig/AutonomicRobotics/blob/master/AutonomicRoboticsSimulator/simulator2.JPG" width="300">
+<img src="https://github.com/yoavhenig/AutonomicRobotics/blob/master/AutonomicRoboticsSimulator/simulator2.jpg" width="300">
 
 ### Green tracking - python program to track green object.
 
