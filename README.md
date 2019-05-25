@@ -8,7 +8,9 @@ autonomic robotics course
 <img src="https://github.com/yoavhenig/AutonomicRobotics/blob/master/AutonomicRoboticsSimulator/simulator2.jpg" width="300">
 <img src="https://github.com/yoavhenig/AutonomicRobotics/blob/master/AutonomicRoboticsSimulator/simulator3.jpg" width="300">
 
-### BeresheetSimulator - python program to track after Beresheet spacecraft landing scenario. The simulator helps us to figure out the Beresheet 1 failure.
+### BeresheetSimulator - python program to track after Beresheet spacecraft landing scenario.
+
+The simulator helps us to figure out the Beresheet 1 failure.
 
 
 ### Green tracking - python program to track green object.
